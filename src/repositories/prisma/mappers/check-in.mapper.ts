@@ -8,7 +8,7 @@ import {
   CheckIn as PrismaCheckIn,
   BodySensation as PrismaBodySensation,
   SessionStatus as PrismaSessionStatus,
-} from '@prisma/client'
+} from '@/generated/client'
 import {
   CheckInEntity,
   SessionStatus,

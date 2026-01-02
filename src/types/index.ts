@@ -4,7 +4,7 @@
  * Exporta tipos derivados de Prisma y tipos personalizados para la app
  */
 
-import { Prisma } from '@prisma/client'
+import { Prisma } from '@/generated/client'
 
 // ==========================================
 // TIPOS DERIVADOS DE PRISMA

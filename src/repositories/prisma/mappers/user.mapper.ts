@@ -4,7 +4,7 @@
  * Convierte entre modelos de Prisma y entidades de dominio para User.
  */
 
-import { User as PrismaUser, UserRole as PrismaUserRole } from '@prisma/client'
+import { User as PrismaUser, UserRole as PrismaUserRole } from '@/generated/client'
 import { UserEntity } from '../../interfaces/user.repository.interface'
 import { PhoneNumber } from '../../../domain/value-objects/phone-number.vo'
 

@@ -6,7 +6,7 @@
 
 import type { IUserRepository } from '../../repositories/interfaces/user.repository.interface'
 import type { IPsychologistRepository } from '../../repositories/interfaces/psychologist.repository.interface'
-import { UserRole } from '@prisma/client'
+import { UserRole } from '@/generated/client'
 
 export type LinkWithPsychologistInput = {
   userId: string
