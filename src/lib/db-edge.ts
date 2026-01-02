@@ -12,7 +12,7 @@
  * Para la mayoría de casos, usa el cliente regular de @/lib/db
  */
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@/generated/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
 import { Pool } from '@neondatabase/serverless'
 
@@ -23,10 +23,10 @@ export function createEdgePrismaClient() {
   }
 
   const pool = new Pool({ connectionString: process.env.DATABASE_URL })
-  const adapter = new PrismaNeon(pool)
+  const adapter = new PrismaNeon(pool as any)
 
   return new PrismaClient({
-    adapter,
+    adapter: adapter as any,
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
   })
 }

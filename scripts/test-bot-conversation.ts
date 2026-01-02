@@ -7,9 +7,10 @@
  * npx tsx scripts/test-bot-conversation.ts
  */
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../src/generated/client'
 import { PrismaUserRepository } from '../src/repositories/prisma/user.repository'
 import { PrismaCheckInRepository } from '../src/repositories/prisma/check-in.repository'
+import { PrismaPsychologistRepository } from '../src/repositories/prisma/psychologist.repository'
 import { GestaltCoachService } from '../src/services/ai/gestalt-coach.service'
 import { GeminiService } from '../src/services/ai/gemini.service'
 import { ProcessMessageUseCase } from '../src/use-cases/check-in/process-message.use-case'
@@ -35,6 +36,7 @@ async function testBotConversation() {
     // Inicializar servicios
     const userRepo = new PrismaUserRepository(prisma)
     const checkInRepo = new PrismaCheckInRepository(prisma)
+    const psychologistRepo = new PrismaPsychologistRepository(prisma)
     const gestaltCoach = new GestaltCoachService()
     const geminiService = new GeminiService(process.env.GEMINI_API_KEY)
 
@@ -42,6 +44,7 @@ async function testBotConversation() {
     const processMessage = new ProcessMessageUseCase(
       userRepo,
       checkInRepo,
+      psychologistRepo,
       gestaltCoach,
       geminiService
     )

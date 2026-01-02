@@ -4,7 +4,7 @@
  * Implementación del repositorio de usuarios usando Prisma.
  */
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@/generated/client'
 import { IUserRepository, UserEntity } from '../interfaces/user.repository.interface'
 import { PhoneNumber } from '../../domain/value-objects/phone-number.vo'
 import { UserMapper } from './mappers/user.mapper'

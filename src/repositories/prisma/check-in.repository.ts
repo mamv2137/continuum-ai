@@ -4,7 +4,7 @@
  * Implementación del repositorio de check-ins usando Prisma.
  */
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@/generated/client'
 import { ICheckInRepository } from '../interfaces/check-in.repository.interface'
 import { CheckInEntity } from '../../domain/entities/check-in.entity'
 import { CheckInMapper } from './mappers/check-in.mapper'

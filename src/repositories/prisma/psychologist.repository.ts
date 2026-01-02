@@ -4,7 +4,7 @@
  * Implementación de IPsychologistRepository usando Prisma.
  */
 
-import type { PrismaClient } from '@prisma/client'
+import type { PrismaClient } from '@/generated/client'
 import type {
   IPsychologistRepository,
   PsychologistData,

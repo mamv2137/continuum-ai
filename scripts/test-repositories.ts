@@ -8,7 +8,7 @@
  * y haber ejecutado las migraciones: npm run db:migrate
  */
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../src/generated/client'
 import { PrismaUserRepository } from '../src/repositories/prisma/user.repository'
 import { PrismaCheckInRepository } from '../src/repositories/prisma/check-in.repository'
 import { PhoneNumber } from '../src/domain/value-objects/phone-number.vo'
