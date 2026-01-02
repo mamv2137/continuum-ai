@@ -1,0 +1,239 @@
+// Continuum AI - Prisma Schema
+// Base de datos: Neon (PostgreSQL Serverless)
+// Arquitectura: Separación estricta PII (identidad) / PHI (datos de salud)
+
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum UserRole {
+  INDIVIDUAL // Usuario B2C (sin psicólogo)
+  PATIENT    // Usuario B2B2C (vinculado a un psicólogo)
+}
+
+enum SessionStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+enum AuthProvider {
+  EMAIL      // Email/Password
+  GOOGLE     // OAuth Google (V2)
+  PHONE      // WhatsApp/SMS (V2)
+}
+
+// ==========================================
+// AUTENTICACIÓN (PII)
+// ==========================================
+
+model Account {
+  id              String        @id @default(cuid())
+  email           String        @unique
+  emailVerified   Boolean       @default(false)
+  hashedPassword  String?
+  provider        AuthProvider  @default(EMAIL)
+
+  // Relación 1:1 con User
+  userId          String        @unique
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([email])
+}
+
+model VerificationToken {
+  id         String   @id @default(cuid())
+  email      String
+  token      String   @unique
+  expires    DateTime
+
+  createdAt  DateTime @default(now())
+
+  @@unique([email, token])
+  @@index([token])
+}
+
+// ==========================================
+// PSICÓLOGOS (PII)
+// ==========================================
+
+model Psychologist {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  licenseNumber String?   @unique
+  code          String    @unique  // Código único para vincular pacientes (ej: "sersentiryconectar")
+  isActive      Boolean   @default(true)
+
+  // Relación con pacientes
+  patients      User[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([email])
+  @@index([licenseNumber])
+  @@index([code])
+}
+
+// ==========================================
+// USUARIOS (PII + Metadata)
+// ==========================================
+
+model User {
+  id              String           @id @default(cuid())
+  phoneNumber     String           @unique // Identificador principal para WhatsApp
+  name            String?
+  role            UserRole         @default(INDIVIDUAL)
+
+  // Onboarding y consentimientos
+  onboardingDone  Boolean          @default(false)
+  onboardingStep  String?          // Estado actual del onboarding: "NAME" | "EXPECTATIONS" | "PSYCHOLOGIST" | etc.
+  termsAccepted   Boolean          @default(false)
+  termsAcceptedAt DateTime?
+
+  // Información personal recopilada en onboarding
+  hasPsychologist         Boolean  @default(false)
+  psychologistName        String?  // Solo si psicólogo NO está registrado en Continuum
+  psychologistContact     String?  // Teléfono/email del psicólogo externo
+  emergencyContactName    String?
+  emergencyContactPhone   String?
+  previousTherapyExperience Boolean @default(false)
+
+  // Configuración personal
+  timezone        String           @default("America/Mexico_City")
+  preferredLanguage String         @default("es")
+
+  // Relación con autenticación (opcional para usuarios de WhatsApp)
+  account         Account?
+
+  // Relación con psicólogo registrado (solo para PATIENT B2B2C)
+  psychologistId  String?
+  psychologist    Psychologist?    @relation(fields: [psychologistId], references: [id], onDelete: SetNull)
+
+  // Actividad del usuario (PHI)
+  checkIns        CheckIn[]
+
+  // Metadata de uso
+  lastCheckInAt   DateTime?
+  totalCheckIns   Int              @default(0)
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([phoneNumber])
+  @@index([psychologistId])
+  @@index([role])
+  @@index([onboardingDone])
+}
+
+// ==========================================
+// CHECK-INS / SESIONES (PHI)
+// ==========================================
+
+model CheckIn {
+  id              String         @id @default(cuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status          SessionStatus  @default(IN_PROGRESS)
+
+  // ===== LAS 3 ZONAS DE GESTALT =====
+
+  // 1. ZONA EXTERNA (Sentidos: ver, oír, tocar, oler, saborear)
+  externalZone    String?        @db.Text
+
+  // 2. ZONA INTERNA (Soma/Cuerpo - Sensaciones físicas)
+  // Relación con BodySensation para mapas de calor corporales
+  bodySensations  BodySensation[]
+
+  // 3. ZONA DE FANTASÍA (Pensamientos, juicios, interpretaciones)
+  fantasyZone     String?        @db.Text
+
+  // ===== DATOS DE IA Y ANÁLISIS =====
+
+  // Resumen generado por Gemini
+  aiInsight       String?        @db.Text
+
+  // Tono emocional detectado (para tendencias)
+  emotionalTone   String?        // Ej: "Ansiedad", "Calma", "Tristeza", "Enojo"
+
+  // Log completo de la conversación con Gemini
+  // Formato: [{ role: 'user' | 'model', content: string, timestamp: string }]
+  rawChatLog      Json?
+
+  // ===== METADATA DE SESIÓN =====
+
+  duration        Int?           // Duración en segundos
+  messageCount    Int            @default(0) // Número de mensajes intercambiados
+  completionRate  Float?         // % de zonas completadas (0-100)
+
+  createdAt       DateTime       @default(now())
+  completedAt     DateTime?
+  updatedAt       DateTime       @updatedAt
+
+  @@index([userId, createdAt(sort: Desc)]) // Para historial ordenado
+  @@index([status])
+  @@index([emotionalTone])
+}
+
+// ==========================================
+// SENSACIONES CORPORALES (PHI)
+// ==========================================
+
+model BodySensation {
+  id               String         @id @default(cuid())
+  checkInId        String
+  checkIn          CheckIn        @relation(fields: [checkInId], references: [id], onDelete: Cascade)
+
+  // Ubicación corporal
+  bodyPart         String         // Ej: "Pecho", "Hombros", "Garganta", "Estómago"
+
+  // Tipo de sensación
+  sensationType    String         // Ej: "Presión", "Frío", "Nudo", "Calor", "Tensión", "Vacío"
+
+  // Intensidad (1-10)
+  intensity        Int?           @default(5)
+
+  // Descripción adicional del usuario
+  description      String?        @db.Text
+
+  createdAt        DateTime       @default(now())
+
+  @@index([checkInId])
+  @@index([bodyPart])
+  @@index([sensationType])
+}
+
+// ==========================================
+// NOTAS CLÍNICAS (PHI - Solo para V2)
+// ==========================================
+
+// Para uso futuro de psicólogos
+// model ClinicalNote {
+//   id              String       @id @default(cuid())
+//   psychologistId  String
+//   userId          String
+//   checkInId       String?
+//
+//   content         String       @db.Text
+//   isPrivate       Boolean      @default(true) // No visible para el paciente
+//
+//   createdAt       DateTime     @default(now())
+//   updatedAt       DateTime     @updatedAt
+//
+//   @@index([psychologistId, userId])
+// }

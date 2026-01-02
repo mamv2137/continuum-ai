@@ -7,12 +7,36 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "ngrok": "node scripts/start-ngrok.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:seed": "node -r dotenv/config node_modules/.bin/tsx prisma/seed.ts dotenv_config_path=.env.local",
+    "db:clean-users": "node -r dotenv/config node_modules/.bin/tsx scripts/clean-user-data.ts dotenv_config_path=.env.local",
+    "db:test": "node -r dotenv/config node_modules/.bin/tsx scripts/test-db-connection.ts dotenv_config_path=.env.local",
+    "test:repos": "node -r dotenv/config node_modules/.bin/tsx scripts/test-repositories.ts dotenv_config_path=.env.local",
+    "test:bot": "node -r dotenv/config node_modules/.bin/tsx scripts/test-bot-conversation.ts dotenv_config_path=.env.local"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@neondatabase/serverless": "^1.0.2",
+    "@prisma/adapter-neon": "^7.2.0",
+    "@prisma/client": "^6.19.1",
+    "better-auth": "^1.4.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "lucide-react": "^0.562.0",
     "next": "16.1.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "tailwind-merge": "^3.4.0",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
@@ -20,7 +44,9 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "prisma": "^6.19.1",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
