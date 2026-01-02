@@ -17,7 +17,10 @@
     "db:clean-users": "node -r dotenv/config node_modules/.bin/tsx scripts/clean-user-data.ts dotenv_config_path=.env.local",
     "db:test": "node -r dotenv/config node_modules/.bin/tsx scripts/test-db-connection.ts dotenv_config_path=.env.local",
     "test:repos": "node -r dotenv/config node_modules/.bin/tsx scripts/test-repositories.ts dotenv_config_path=.env.local",
-    "test:bot": "node -r dotenv/config node_modules/.bin/tsx scripts/test-bot-conversation.ts dotenv_config_path=.env.local"
+    "test:bot": "node -r dotenv/config node_modules/.bin/tsx scripts/test-bot-conversation.ts dotenv_config_path=.env.local",
+    "cf:build": "next build && npx @opennextjs/cloudflare build",
+    "cf:deploy": "npm run cf:build && wrangler deploy",
+    "cf:dev": "wrangler dev"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -40,6 +43,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
+    "@opennextjs/cloudflare": "^1.14.7",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -47,6 +51,7 @@
     "prisma": "^6.19.1",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.54.0"
   }
 }
