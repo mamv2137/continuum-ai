@@ -18,8 +18,9 @@ datasource db {
 // ==========================================
 
 enum UserRole {
-  INDIVIDUAL // Usuario B2C (sin psicólogo)
-  PATIENT    // Usuario B2B2C (vinculado a un psicólogo)
+  INDIVIDUAL    // Usuario B2C (sin psicólogo)
+  PATIENT       // Usuario B2B2C (vinculado a un psicólogo)
+  PSYCHOLOGIST  // Psicólogo (acceso a dashboard clínico + check-ins personales)
 }
 
 enum SessionStatus {
@@ -68,27 +69,42 @@ model VerificationToken {
 }
 
 // ==========================================
+// BETTER AUTH - TABLAS DE AUTENTICACIÓN
+// ==========================================
+
+model Session {
+  id             String   @id @default(cuid())
+  expiresAt      DateTime
+  token          String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ==========================================
 // PSICÓLOGOS (PII)
 // ==========================================
 
-model Psychologist {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String
-  licenseNumber String?   @unique
-  code          String    @unique  // Código único para vincular pacientes (ej: "sersentiryconectar")
-  isActive      Boolean   @default(true)
-
-  // Relación con pacientes
-  patients      User[]
-
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  @@index([email])
-  @@index([licenseNumber])
-  @@index([code])
-}
+// DEPRECADO: Ahora los psicólogos son Users con role: PSYCHOLOGIST
+// model Psychologist {
+//   id            String    @id @default(cuid())
+//   email         String    @unique
+//   name          String
+//   licenseNumber String?   @unique
+//   code          String    @unique
+//   isActive      Boolean   @default(true)
+//   patients      User[]
+//   createdAt     DateTime  @default(now())
+//   updatedAt     DateTime  @updatedAt
+//   @@index([email])
+//   @@index([licenseNumber])
+//   @@index([code])
+// }
 
 // ==========================================
 // USUARIOS (PII + Metadata)
@@ -97,8 +113,16 @@ model Psychologist {
 model User {
   id              String           @id @default(cuid())
   phoneNumber     String           @unique // Identificador principal para WhatsApp
+  email           String?          @unique // Para autenticación web (opcional)
+  emailVerified   Boolean          @default(false)
+  password        String?          // Solo para psicólogos que quieran login web con email/password
   name            String?
   role            UserRole         @default(INDIVIDUAL)
+
+  // Campos específicos para PSYCHOLOGIST
+  licenseNumber   String?          // Cédula profesional del psicólogo
+  psychologistCode String?         @unique // Código único para vinculación de pacientes
+  notificationsEnabled Boolean     @default(true) // Recibir notificaciones de check-ins de pacientes
 
   // Onboarding y consentimientos
   onboardingDone  Boolean          @default(false)
@@ -120,10 +144,13 @@ model User {
 
   // Relación con autenticación (opcional para usuarios de WhatsApp)
   account         Account?
+  sessions        Session[]
 
   // Relación con psicólogo registrado (solo para PATIENT B2B2C)
+  // Self-relation: un User con role PSYCHOLOGIST puede tener muchos pacientes (Users)
   psychologistId  String?
-  psychologist    Psychologist?    @relation(fields: [psychologistId], references: [id], onDelete: SetNull)
+  psychologist    User?      @relation("PsychologistPatients", fields: [psychologistId], references: [id], onDelete: SetNull)
+  patients        User[]     @relation("PsychologistPatients")
 
   // Actividad del usuario (PHI)
   checkIns        CheckIn[]
@@ -136,7 +163,9 @@ model User {
   updatedAt       DateTime         @updatedAt
 
   @@index([phoneNumber])
+  @@index([email])
   @@index([psychologistId])
+  @@index([psychologistCode])
   @@index([role])
   @@index([onboardingDone])
 }

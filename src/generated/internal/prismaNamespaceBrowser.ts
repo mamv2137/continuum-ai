@@ -51,7 +51,7 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   Account: 'Account',
   VerificationToken: 'VerificationToken',
-  Psychologist: 'Psychologist',
+  Session: 'Session',
   User: 'User',
   CheckIn: 'CheckIn',
   BodySensation: 'BodySensation'
@@ -98,25 +98,31 @@ export const VerificationTokenScalarFieldEnum = {
 export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
-export const PsychologistScalarFieldEnum = {
+export const SessionScalarFieldEnum = {
   id: 'id',
-  email: 'email',
-  name: 'name',
-  licenseNumber: 'licenseNumber',
-  code: 'code',
-  isActive: 'isActive',
+  expiresAt: 'expiresAt',
+  token: 'token',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  userId: 'userId'
 } as const
 
-export type PsychologistScalarFieldEnum = (typeof PsychologistScalarFieldEnum)[keyof typeof PsychologistScalarFieldEnum]
+export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
   id: 'id',
   phoneNumber: 'phoneNumber',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  password: 'password',
   name: 'name',
   role: 'role',
+  licenseNumber: 'licenseNumber',
+  psychologistCode: 'psychologistCode',
+  notificationsEnabled: 'notificationsEnabled',
   onboardingDone: 'onboardingDone',
   onboardingStep: 'onboardingStep',
   termsAccepted: 'termsAccepted',

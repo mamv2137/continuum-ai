@@ -2,6 +2,7 @@
  * Prisma Psychologist Repository
  *
  * Implementación de IPsychologistRepository usando Prisma.
+ * NOTA: Ahora los psicólogos son Users con role PSYCHOLOGIST
  */
 
 import type { PrismaClient } from '@/generated/client'
@@ -14,26 +15,69 @@ export class PrismaPsychologistRepository implements IPsychologistRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
   async findByCode(code: string): Promise<PsychologistData | null> {
-    const psychologist = await this.prisma.psychologist.findUnique({
-      where: { code: code.toLowerCase() }, // Normalizar a minúsculas
+    const psychologist = await this.prisma.user.findUnique({
+      where: {
+        psychologistCode: code.toUpperCase(), // Normalizar a mayúsculas
+        role: 'PSYCHOLOGIST',
+      },
     })
 
-    return psychologist
+    if (!psychologist) return null
+
+    // Mapear User a PsychologistData
+    return {
+      id: psychologist.id,
+      email: psychologist.email || '',
+      name: psychologist.name || '',
+      licenseNumber: psychologist.licenseNumber || null,
+      code: psychologist.psychologistCode || '',
+      isActive: true, // Los Users activos siempre están activos
+      createdAt: psychologist.createdAt,
+      updatedAt: psychologist.updatedAt,
+    }
   }
 
   async findById(id: string): Promise<PsychologistData | null> {
-    const psychologist = await this.prisma.psychologist.findUnique({
-      where: { id },
+    const psychologist = await this.prisma.user.findFirst({
+      where: {
+        id,
+        role: 'PSYCHOLOGIST',
+      },
     })
 
-    return psychologist
+    if (!psychologist) return null
+
+    return {
+      id: psychologist.id,
+      email: psychologist.email || '',
+      name: psychologist.name || '',
+      licenseNumber: psychologist.licenseNumber || null,
+      code: psychologist.psychologistCode || '',
+      isActive: true,
+      createdAt: psychologist.createdAt,
+      updatedAt: psychologist.updatedAt,
+    }
   }
 
   async findByEmail(email: string): Promise<PsychologistData | null> {
-    const psychologist = await this.prisma.psychologist.findUnique({
-      where: { email },
+    const psychologist = await this.prisma.user.findFirst({
+      where: {
+        email,
+        role: 'PSYCHOLOGIST',
+      },
     })
 
-    return psychologist
+    if (!psychologist) return null
+
+    return {
+      id: psychologist.id,
+      email: psychologist.email || '',
+      name: psychologist.name || '',
+      licenseNumber: psychologist.licenseNumber || null,
+      code: psychologist.psychologistCode || '',
+      isActive: true,
+      createdAt: psychologist.createdAt,
+      updatedAt: psychologist.updatedAt,
+    }
   }
 }

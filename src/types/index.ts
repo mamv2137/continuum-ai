@@ -37,8 +37,9 @@ export type CheckInComplete = Prisma.CheckInGetPayload<{
 
 export type BodySensation = Prisma.BodySensationGetPayload<{}>
 
-export type Psychologist = Prisma.PsychologistGetPayload<{}>
-export type PsychologistWithPatients = Prisma.PsychologistGetPayload<{
+// NOTA: Los psicólogos ahora son Users con role: PSYCHOLOGIST
+export type Psychologist = User // Alias para mantener compatibilidad
+export type PsychologistWithPatients = Prisma.UserGetPayload<{
   include: { patients: true }
 }>
 

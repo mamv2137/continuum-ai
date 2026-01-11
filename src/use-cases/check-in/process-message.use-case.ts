@@ -61,7 +61,7 @@ export class ProcessMessageUseCase {
       user = await this.userRepository.create({
         phoneNumber,
         role: 'INDIVIDUAL',
-        onboardingStep: OnboardingStep.NAME, // Iniciar onboarding
+        onboardingStep: OnboardingStep.NOT_STARTED, // Iniciar onboarding
       })
     }
 

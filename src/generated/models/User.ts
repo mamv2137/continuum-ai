@@ -37,8 +37,14 @@ export type UserSumAggregateOutputType = {
 export type UserMinAggregateOutputType = {
   id: string | null
   phoneNumber: string | null
+  email: string | null
+  emailVerified: boolean | null
+  password: string | null
   name: string | null
   role: $Enums.UserRole | null
+  licenseNumber: string | null
+  psychologistCode: string | null
+  notificationsEnabled: boolean | null
   onboardingDone: boolean | null
   onboardingStep: string | null
   termsAccepted: boolean | null
@@ -61,8 +67,14 @@ export type UserMinAggregateOutputType = {
 export type UserMaxAggregateOutputType = {
   id: string | null
   phoneNumber: string | null
+  email: string | null
+  emailVerified: boolean | null
+  password: string | null
   name: string | null
   role: $Enums.UserRole | null
+  licenseNumber: string | null
+  psychologistCode: string | null
+  notificationsEnabled: boolean | null
   onboardingDone: boolean | null
   onboardingStep: string | null
   termsAccepted: boolean | null
@@ -85,8 +97,14 @@ export type UserMaxAggregateOutputType = {
 export type UserCountAggregateOutputType = {
   id: number
   phoneNumber: number
+  email: number
+  emailVerified: number
+  password: number
   name: number
   role: number
+  licenseNumber: number
+  psychologistCode: number
+  notificationsEnabled: number
   onboardingDone: number
   onboardingStep: number
   termsAccepted: number
@@ -119,8 +137,14 @@ export type UserSumAggregateInputType = {
 export type UserMinAggregateInputType = {
   id?: true
   phoneNumber?: true
+  email?: true
+  emailVerified?: true
+  password?: true
   name?: true
   role?: true
+  licenseNumber?: true
+  psychologistCode?: true
+  notificationsEnabled?: true
   onboardingDone?: true
   onboardingStep?: true
   termsAccepted?: true
@@ -143,8 +167,14 @@ export type UserMinAggregateInputType = {
 export type UserMaxAggregateInputType = {
   id?: true
   phoneNumber?: true
+  email?: true
+  emailVerified?: true
+  password?: true
   name?: true
   role?: true
+  licenseNumber?: true
+  psychologistCode?: true
+  notificationsEnabled?: true
   onboardingDone?: true
   onboardingStep?: true
   termsAccepted?: true
@@ -167,8 +197,14 @@ export type UserMaxAggregateInputType = {
 export type UserCountAggregateInputType = {
   id?: true
   phoneNumber?: true
+  email?: true
+  emailVerified?: true
+  password?: true
   name?: true
   role?: true
+  licenseNumber?: true
+  psychologistCode?: true
+  notificationsEnabled?: true
   onboardingDone?: true
   onboardingStep?: true
   termsAccepted?: true
@@ -278,8 +314,14 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type UserGroupByOutputType = {
   id: string
   phoneNumber: string
+  email: string | null
+  emailVerified: boolean
+  password: string | null
   name: string | null
   role: $Enums.UserRole
+  licenseNumber: string | null
+  psychologistCode: string | null
+  notificationsEnabled: boolean
   onboardingDone: boolean
   onboardingStep: string | null
   termsAccepted: boolean
@@ -325,8 +367,14 @@ export type UserWhereInput = {
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
   phoneNumber?: Prisma.StringFilter<"User"> | string
+  email?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerified?: Prisma.BoolFilter<"User"> | boolean
+  password?: Prisma.StringNullableFilter<"User"> | string | null
   name?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
+  licenseNumber?: Prisma.StringNullableFilter<"User"> | string | null
+  psychologistCode?: Prisma.StringNullableFilter<"User"> | string | null
+  notificationsEnabled?: Prisma.BoolFilter<"User"> | boolean
   onboardingDone?: Prisma.BoolFilter<"User"> | boolean
   onboardingStep?: Prisma.StringNullableFilter<"User"> | string | null
   termsAccepted?: Prisma.BoolFilter<"User"> | boolean
@@ -345,15 +393,23 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   account?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
-  psychologist?: Prisma.XOR<Prisma.PsychologistNullableScalarRelationFilter, Prisma.PsychologistWhereInput> | null
+  sessions?: Prisma.SessionListRelationFilter
+  psychologist?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  patients?: Prisma.UserListRelationFilter
   checkIns?: Prisma.CheckInListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  password?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  psychologistCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  notificationsEnabled?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
   onboardingStep?: Prisma.SortOrderInput | Prisma.SortOrder
   termsAccepted?: Prisma.SortOrder
@@ -372,18 +428,26 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   account?: Prisma.AccountOrderByWithRelationInput
-  psychologist?: Prisma.PsychologistOrderByWithRelationInput
+  sessions?: Prisma.SessionOrderByRelationAggregateInput
+  psychologist?: Prisma.UserOrderByWithRelationInput
+  patients?: Prisma.UserOrderByRelationAggregateInput
   checkIns?: Prisma.CheckInOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   phoneNumber?: string
+  email?: string
+  psychologistCode?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
+  emailVerified?: Prisma.BoolFilter<"User"> | boolean
+  password?: Prisma.StringNullableFilter<"User"> | string | null
   name?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
+  licenseNumber?: Prisma.StringNullableFilter<"User"> | string | null
+  notificationsEnabled?: Prisma.BoolFilter<"User"> | boolean
   onboardingDone?: Prisma.BoolFilter<"User"> | boolean
   onboardingStep?: Prisma.StringNullableFilter<"User"> | string | null
   termsAccepted?: Prisma.BoolFilter<"User"> | boolean
@@ -402,15 +466,23 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   account?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
-  psychologist?: Prisma.XOR<Prisma.PsychologistNullableScalarRelationFilter, Prisma.PsychologistWhereInput> | null
+  sessions?: Prisma.SessionListRelationFilter
+  psychologist?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  patients?: Prisma.UserListRelationFilter
   checkIns?: Prisma.CheckInListRelationFilter
-}, "id" | "phoneNumber">
+}, "id" | "phoneNumber" | "email" | "psychologistCode">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  password?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  psychologistCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  notificationsEnabled?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
   onboardingStep?: Prisma.SortOrderInput | Prisma.SortOrder
   termsAccepted?: Prisma.SortOrder
@@ -441,8 +513,14 @@ export type UserScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
   phoneNumber?: Prisma.StringWithAggregatesFilter<"User"> | string
+  email?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  emailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  password?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
+  licenseNumber?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  psychologistCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  notificationsEnabled?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   onboardingDone?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   onboardingStep?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   termsAccepted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
@@ -465,8 +543,14 @@ export type UserScalarWhereWithAggregatesInput = {
 export type UserCreateInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -484,15 +568,23 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   account?: Prisma.AccountCreateNestedOneWithoutUserInput
-  psychologist?: Prisma.PsychologistCreateNestedOneWithoutPatientsInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  psychologist?: Prisma.UserCreateNestedOneWithoutPatientsInput
+  patients?: Prisma.UserCreateNestedManyWithoutPsychologistInput
   checkIns?: Prisma.CheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -511,14 +603,22 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  patients?: Prisma.UserUncheckedCreateNestedManyWithoutPsychologistInput
   checkIns?: Prisma.CheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -536,15 +636,23 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account?: Prisma.AccountUpdateOneWithoutUserNestedInput
-  psychologist?: Prisma.PsychologistUpdateOneWithoutPatientsNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  psychologist?: Prisma.UserUpdateOneWithoutPatientsNestedInput
+  patients?: Prisma.UserUpdateManyWithoutPsychologistNestedInput
   checkIns?: Prisma.CheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -563,14 +671,22 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  patients?: Prisma.UserUncheckedUpdateManyWithoutPsychologistNestedInput
   checkIns?: Prisma.CheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -593,8 +709,14 @@ export type UserCreateManyInput = {
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -616,8 +738,14 @@ export type UserUpdateManyMutationInput = {
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -642,6 +770,11 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type UserListRelationFilter = {
   every?: Prisma.UserWhereInput
   some?: Prisma.UserWhereInput
@@ -655,8 +788,14 @@ export type UserOrderByRelationAggregateInput = {
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrder
+  psychologistCode?: Prisma.SortOrder
+  notificationsEnabled?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
   onboardingStep?: Prisma.SortOrder
   termsAccepted?: Prisma.SortOrder
@@ -683,8 +822,14 @@ export type UserAvgOrderByAggregateInput = {
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrder
+  psychologistCode?: Prisma.SortOrder
+  notificationsEnabled?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
   onboardingStep?: Prisma.SortOrder
   termsAccepted?: Prisma.SortOrder
@@ -707,8 +852,14 @@ export type UserMaxOrderByAggregateInput = {
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrder
+  psychologistCode?: Prisma.SortOrder
+  notificationsEnabled?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
   onboardingStep?: Prisma.SortOrder
   termsAccepted?: Prisma.SortOrder
@@ -746,6 +897,26 @@ export type UserUpdateOneRequiredWithoutAccountNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountInput, Prisma.UserUpdateWithoutAccountInput>, Prisma.UserUncheckedUpdateWithoutAccountInput>
 }
 
+export type UserCreateNestedOneWithoutSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSessionsInput, Prisma.UserUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSessionsInput, Prisma.UserUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSessionsInput
+  upsert?: Prisma.UserUpsertWithoutSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSessionsInput, Prisma.UserUpdateWithoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutSessionsInput>
+}
+
+export type UserCreateNestedOneWithoutPatientsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPatientsInput, Prisma.UserUncheckedCreateWithoutPatientsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPatientsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserCreateNestedManyWithoutPsychologistInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutPsychologistInput, Prisma.UserUncheckedCreateWithoutPsychologistInput> | Prisma.UserCreateWithoutPsychologistInput[] | Prisma.UserUncheckedCreateWithoutPsychologistInput[]
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutPsychologistInput | Prisma.UserCreateOrConnectWithoutPsychologistInput[]
@@ -758,6 +929,32 @@ export type UserUncheckedCreateNestedManyWithoutPsychologistInput = {
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutPsychologistInput | Prisma.UserCreateOrConnectWithoutPsychologistInput[]
   createMany?: Prisma.UserCreateManyPsychologistInputEnvelope
   connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type EnumUserRoleFieldUpdateOperationsInput = {
+  set?: $Enums.UserRole
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type UserUpdateOneWithoutPatientsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPatientsInput, Prisma.UserUncheckedCreateWithoutPatientsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPatientsInput
+  upsert?: Prisma.UserUpsertWithoutPatientsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPatientsInput, Prisma.UserUpdateWithoutPatientsInput>, Prisma.UserUncheckedUpdateWithoutPatientsInput>
 }
 
 export type UserUpdateManyWithoutPsychologistNestedInput = {
@@ -788,22 +985,6 @@ export type UserUncheckedUpdateManyWithoutPsychologistNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
-export type EnumUserRoleFieldUpdateOperationsInput = {
-  set?: $Enums.UserRole
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type UserCreateNestedOneWithoutCheckInsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCheckInsInput, Prisma.UserUncheckedCreateWithoutCheckInsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCheckInsInput
@@ -821,8 +1002,14 @@ export type UserUpdateOneRequiredWithoutCheckInsNestedInput = {
 export type UserCreateWithoutAccountInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -839,15 +1026,23 @@ export type UserCreateWithoutAccountInput = {
   totalCheckIns?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  psychologist?: Prisma.PsychologistCreateNestedOneWithoutPatientsInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  psychologist?: Prisma.UserCreateNestedOneWithoutPatientsInput
+  patients?: Prisma.UserCreateNestedManyWithoutPsychologistInput
   checkIns?: Prisma.CheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -865,6 +1060,8 @@ export type UserUncheckedCreateWithoutAccountInput = {
   totalCheckIns?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  patients?: Prisma.UserUncheckedCreateNestedManyWithoutPsychologistInput
   checkIns?: Prisma.CheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -887,8 +1084,14 @@ export type UserUpdateToOneWithWhereWithoutAccountInput = {
 export type UserUpdateWithoutAccountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -905,15 +1108,23 @@ export type UserUpdateWithoutAccountInput = {
   totalCheckIns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  psychologist?: Prisma.PsychologistUpdateOneWithoutPatientsNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  psychologist?: Prisma.UserUpdateOneWithoutPatientsNestedInput
+  patients?: Prisma.UserUpdateManyWithoutPsychologistNestedInput
   checkIns?: Prisma.CheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -931,14 +1142,22 @@ export type UserUncheckedUpdateWithoutAccountInput = {
   totalCheckIns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  patients?: Prisma.UserUncheckedUpdateManyWithoutPsychologistNestedInput
   checkIns?: Prisma.CheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutPsychologistInput = {
+export type UserCreateWithoutSessionsInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -956,14 +1175,241 @@ export type UserCreateWithoutPsychologistInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   account?: Prisma.AccountCreateNestedOneWithoutUserInput
+  psychologist?: Prisma.UserCreateNestedOneWithoutPatientsInput
+  patients?: Prisma.UserCreateNestedManyWithoutPsychologistInput
+  checkIns?: Prisma.CheckInCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSessionsInput = {
+  id?: string
+  phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
+  name?: string | null
+  role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
+  onboardingDone?: boolean
+  onboardingStep?: string | null
+  termsAccepted?: boolean
+  termsAcceptedAt?: Date | string | null
+  hasPsychologist?: boolean
+  psychologistName?: string | null
+  psychologistContact?: string | null
+  emergencyContactName?: string | null
+  emergencyContactPhone?: string | null
+  previousTherapyExperience?: boolean
+  timezone?: string
+  preferredLanguage?: string
+  psychologistId?: string | null
+  lastCheckInAt?: Date | string | null
+  totalCheckIns?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
+  patients?: Prisma.UserUncheckedCreateNestedManyWithoutPsychologistInput
+  checkIns?: Prisma.CheckInUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSessionsInput, Prisma.UserUncheckedCreateWithoutSessionsInput>
+}
+
+export type UserUpsertWithoutSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSessionsInput, Prisma.UserUncheckedUpdateWithoutSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSessionsInput, Prisma.UserUncheckedCreateWithoutSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSessionsInput, Prisma.UserUncheckedUpdateWithoutSessionsInput>
+}
+
+export type UserUpdateWithoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  hasPsychologist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  psychologistName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyContactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousTherapyExperience?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  preferredLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  lastCheckInAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalCheckIns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
+  psychologist?: Prisma.UserUpdateOneWithoutPatientsNestedInput
+  patients?: Prisma.UserUpdateManyWithoutPsychologistNestedInput
+  checkIns?: Prisma.CheckInUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  hasPsychologist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  psychologistName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyContactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousTherapyExperience?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  preferredLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  psychologistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastCheckInAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalCheckIns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
+  patients?: Prisma.UserUncheckedUpdateManyWithoutPsychologistNestedInput
+  checkIns?: Prisma.CheckInUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPatientsInput = {
+  id?: string
+  phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
+  name?: string | null
+  role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
+  onboardingDone?: boolean
+  onboardingStep?: string | null
+  termsAccepted?: boolean
+  termsAcceptedAt?: Date | string | null
+  hasPsychologist?: boolean
+  psychologistName?: string | null
+  psychologistContact?: string | null
+  emergencyContactName?: string | null
+  emergencyContactPhone?: string | null
+  previousTherapyExperience?: boolean
+  timezone?: string
+  preferredLanguage?: string
+  lastCheckInAt?: Date | string | null
+  totalCheckIns?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  psychologist?: Prisma.UserCreateNestedOneWithoutPatientsInput
+  checkIns?: Prisma.CheckInCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPatientsInput = {
+  id?: string
+  phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
+  name?: string | null
+  role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
+  onboardingDone?: boolean
+  onboardingStep?: string | null
+  termsAccepted?: boolean
+  termsAcceptedAt?: Date | string | null
+  hasPsychologist?: boolean
+  psychologistName?: string | null
+  psychologistContact?: string | null
+  emergencyContactName?: string | null
+  emergencyContactPhone?: string | null
+  previousTherapyExperience?: boolean
+  timezone?: string
+  preferredLanguage?: string
+  psychologistId?: string | null
+  lastCheckInAt?: Date | string | null
+  totalCheckIns?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  checkIns?: Prisma.CheckInUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPatientsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPatientsInput, Prisma.UserUncheckedCreateWithoutPatientsInput>
+}
+
+export type UserCreateWithoutPsychologistInput = {
+  id?: string
+  phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
+  name?: string | null
+  role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
+  onboardingDone?: boolean
+  onboardingStep?: string | null
+  termsAccepted?: boolean
+  termsAcceptedAt?: Date | string | null
+  hasPsychologist?: boolean
+  psychologistName?: string | null
+  psychologistContact?: string | null
+  emergencyContactName?: string | null
+  emergencyContactPhone?: string | null
+  previousTherapyExperience?: boolean
+  timezone?: string
+  preferredLanguage?: string
+  lastCheckInAt?: Date | string | null
+  totalCheckIns?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  patients?: Prisma.UserCreateNestedManyWithoutPsychologistInput
   checkIns?: Prisma.CheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPsychologistInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -981,6 +1427,8 @@ export type UserUncheckedCreateWithoutPsychologistInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  patients?: Prisma.UserUncheckedCreateNestedManyWithoutPsychologistInput
   checkIns?: Prisma.CheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -992,6 +1440,83 @@ export type UserCreateOrConnectWithoutPsychologistInput = {
 export type UserCreateManyPsychologistInputEnvelope = {
   data: Prisma.UserCreateManyPsychologistInput | Prisma.UserCreateManyPsychologistInput[]
   skipDuplicates?: boolean
+}
+
+export type UserUpsertWithoutPatientsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPatientsInput, Prisma.UserUncheckedUpdateWithoutPatientsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPatientsInput, Prisma.UserUncheckedCreateWithoutPatientsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPatientsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPatientsInput, Prisma.UserUncheckedUpdateWithoutPatientsInput>
+}
+
+export type UserUpdateWithoutPatientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  hasPsychologist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  psychologistName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyContactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousTherapyExperience?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  preferredLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  lastCheckInAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalCheckIns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  psychologist?: Prisma.UserUpdateOneWithoutPatientsNestedInput
+  checkIns?: Prisma.CheckInUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPatientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  hasPsychologist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  psychologistName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyContactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previousTherapyExperience?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  preferredLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  psychologistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastCheckInAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalCheckIns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  checkIns?: Prisma.CheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutPsychologistInput = {
@@ -1016,8 +1541,14 @@ export type UserScalarWhereInput = {
   NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
   phoneNumber?: Prisma.StringFilter<"User"> | string
+  email?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerified?: Prisma.BoolFilter<"User"> | boolean
+  password?: Prisma.StringNullableFilter<"User"> | string | null
   name?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
+  licenseNumber?: Prisma.StringNullableFilter<"User"> | string | null
+  psychologistCode?: Prisma.StringNullableFilter<"User"> | string | null
+  notificationsEnabled?: Prisma.BoolFilter<"User"> | boolean
   onboardingDone?: Prisma.BoolFilter<"User"> | boolean
   onboardingStep?: Prisma.StringNullableFilter<"User"> | string | null
   termsAccepted?: Prisma.BoolFilter<"User"> | boolean
@@ -1040,8 +1571,14 @@ export type UserScalarWhereInput = {
 export type UserCreateWithoutCheckInsInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -1059,14 +1596,22 @@ export type UserCreateWithoutCheckInsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   account?: Prisma.AccountCreateNestedOneWithoutUserInput
-  psychologist?: Prisma.PsychologistCreateNestedOneWithoutPatientsInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  psychologist?: Prisma.UserCreateNestedOneWithoutPatientsInput
+  patients?: Prisma.UserCreateNestedManyWithoutPsychologistInput
 }
 
 export type UserUncheckedCreateWithoutCheckInsInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -1085,6 +1630,8 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  patients?: Prisma.UserUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type UserCreateOrConnectWithoutCheckInsInput = {
@@ -1106,8 +1653,14 @@ export type UserUpdateToOneWithWhereWithoutCheckInsInput = {
 export type UserUpdateWithoutCheckInsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1125,14 +1678,22 @@ export type UserUpdateWithoutCheckInsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account?: Prisma.AccountUpdateOneWithoutUserNestedInput
-  psychologist?: Prisma.PsychologistUpdateOneWithoutPatientsNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  psychologist?: Prisma.UserUpdateOneWithoutPatientsNestedInput
+  patients?: Prisma.UserUpdateManyWithoutPsychologistNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCheckInsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1151,13 +1712,21 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  patients?: Prisma.UserUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 export type UserCreateManyPsychologistInput = {
   id?: string
   phoneNumber: string
+  email?: string | null
+  emailVerified?: boolean
+  password?: string | null
   name?: string | null
   role?: $Enums.UserRole
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: string | null
   termsAccepted?: boolean
@@ -1179,8 +1748,14 @@ export type UserCreateManyPsychologistInput = {
 export type UserUpdateWithoutPsychologistInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1198,14 +1773,22 @@ export type UserUpdateWithoutPsychologistInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account?: Prisma.AccountUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  patients?: Prisma.UserUpdateManyWithoutPsychologistNestedInput
   checkIns?: Prisma.CheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPsychologistInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1223,14 +1806,22 @@ export type UserUncheckedUpdateWithoutPsychologistInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  patients?: Prisma.UserUncheckedUpdateManyWithoutPsychologistNestedInput
   checkIns?: Prisma.CheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutPsychologistInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  psychologistCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingStep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   termsAccepted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1255,10 +1846,14 @@ export type UserUncheckedUpdateManyWithoutPsychologistInput = {
  */
 
 export type UserCountOutputType = {
+  sessions: number
+  patients: number
   checkIns: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+  patients?: boolean | UserCountOutputTypeCountPatientsArgs
   checkIns?: boolean | UserCountOutputTypeCountCheckInsArgs
 }
 
@@ -1275,6 +1870,20 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPatientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountCheckInsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CheckInWhereInput
 }
@@ -1283,8 +1892,14 @@ export type UserCountOutputTypeCountCheckInsArgs<ExtArgs extends runtime.Types.E
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   phoneNumber?: boolean
+  email?: boolean
+  emailVerified?: boolean
+  password?: boolean
   name?: boolean
   role?: boolean
+  licenseNumber?: boolean
+  psychologistCode?: boolean
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: boolean
   termsAccepted?: boolean
@@ -1303,7 +1918,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   account?: boolean | Prisma.User$accountArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   psychologist?: boolean | Prisma.User$psychologistArgs<ExtArgs>
+  patients?: boolean | Prisma.User$patientsArgs<ExtArgs>
   checkIns?: boolean | Prisma.User$checkInsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1311,8 +1928,14 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   phoneNumber?: boolean
+  email?: boolean
+  emailVerified?: boolean
+  password?: boolean
   name?: boolean
   role?: boolean
+  licenseNumber?: boolean
+  psychologistCode?: boolean
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: boolean
   termsAccepted?: boolean
@@ -1336,8 +1959,14 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   phoneNumber?: boolean
+  email?: boolean
+  emailVerified?: boolean
+  password?: boolean
   name?: boolean
   role?: boolean
+  licenseNumber?: boolean
+  psychologistCode?: boolean
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: boolean
   termsAccepted?: boolean
@@ -1361,8 +1990,14 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type UserSelectScalar = {
   id?: boolean
   phoneNumber?: boolean
+  email?: boolean
+  emailVerified?: boolean
+  password?: boolean
   name?: boolean
   role?: boolean
+  licenseNumber?: boolean
+  psychologistCode?: boolean
+  notificationsEnabled?: boolean
   onboardingDone?: boolean
   onboardingStep?: boolean
   termsAccepted?: boolean
@@ -1382,10 +2017,12 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "phoneNumber" | "name" | "role" | "onboardingDone" | "onboardingStep" | "termsAccepted" | "termsAcceptedAt" | "hasPsychologist" | "psychologistName" | "psychologistContact" | "emergencyContactName" | "emergencyContactPhone" | "previousTherapyExperience" | "timezone" | "preferredLanguage" | "psychologistId" | "lastCheckInAt" | "totalCheckIns" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "phoneNumber" | "email" | "emailVerified" | "password" | "name" | "role" | "licenseNumber" | "psychologistCode" | "notificationsEnabled" | "onboardingDone" | "onboardingStep" | "termsAccepted" | "termsAcceptedAt" | "hasPsychologist" | "psychologistName" | "psychologistContact" | "emergencyContactName" | "emergencyContactPhone" | "previousTherapyExperience" | "timezone" | "preferredLanguage" | "psychologistId" | "lastCheckInAt" | "totalCheckIns" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.User$accountArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   psychologist?: boolean | Prisma.User$psychologistArgs<ExtArgs>
+  patients?: boolean | Prisma.User$patientsArgs<ExtArgs>
   checkIns?: boolean | Prisma.User$checkInsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1400,14 +2037,22 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     account: Prisma.$AccountPayload<ExtArgs> | null
-    psychologist: Prisma.$PsychologistPayload<ExtArgs> | null
+    sessions: Prisma.$SessionPayload<ExtArgs>[]
+    psychologist: Prisma.$UserPayload<ExtArgs> | null
+    patients: Prisma.$UserPayload<ExtArgs>[]
     checkIns: Prisma.$CheckInPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     phoneNumber: string
+    email: string | null
+    emailVerified: boolean
+    password: string | null
     name: string | null
     role: $Enums.UserRole
+    licenseNumber: string | null
+    psychologistCode: string | null
+    notificationsEnabled: boolean
     onboardingDone: boolean
     onboardingStep: string | null
     termsAccepted: boolean
@@ -1820,7 +2465,9 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   account<T extends Prisma.User$accountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  psychologist<T extends Prisma.User$psychologistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$psychologistArgs<ExtArgs>>): Prisma.Prisma__PsychologistClient<runtime.Types.Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  psychologist<T extends Prisma.User$psychologistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$psychologistArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  patients<T extends Prisma.User$patientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$patientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   checkIns<T extends Prisma.User$checkInsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$checkInsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1853,8 +2500,14 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
   readonly phoneNumber: Prisma.FieldRef<"User", 'String'>
+  readonly email: Prisma.FieldRef<"User", 'String'>
+  readonly emailVerified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly password: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
+  readonly licenseNumber: Prisma.FieldRef<"User", 'String'>
+  readonly psychologistCode: Prisma.FieldRef<"User", 'String'>
+  readonly notificationsEnabled: Prisma.FieldRef<"User", 'Boolean'>
   readonly onboardingDone: Prisma.FieldRef<"User", 'Boolean'>
   readonly onboardingStep: Prisma.FieldRef<"User", 'String'>
   readonly termsAccepted: Prisma.FieldRef<"User", 'Boolean'>
@@ -2287,22 +2940,70 @@ export type User$accountArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
+ * User.sessions
+ */
+export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Session
+   */
+  select?: Prisma.SessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Session
+   */
+  omit?: Prisma.SessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SessionInclude<ExtArgs> | null
+  where?: Prisma.SessionWhereInput
+  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
+  cursor?: Prisma.SessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
+}
+
+/**
  * User.psychologist
  */
 export type User$psychologistArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Psychologist
+   * Select specific fields to fetch from the User
    */
-  select?: Prisma.PsychologistSelect<ExtArgs> | null
+  select?: Prisma.UserSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Psychologist
+   * Omit specific fields from the User
    */
-  omit?: Prisma.PsychologistOmit<ExtArgs> | null
+  omit?: Prisma.UserOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PsychologistInclude<ExtArgs> | null
-  where?: Prisma.PsychologistWhereInput
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * User.patients
+ */
+export type User$patientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
+  cursor?: Prisma.UserWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
 }
 
 /**

@@ -15,21 +15,25 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('🌱 Iniciando seed de base de datos...\n')
 
-  // 1. Crear psicólogo de ejemplo con código
+  // 1. Crear psicólogo de ejemplo con código (ahora es un User con rol PSYCHOLOGIST)
   console.log('👨‍⚕️ Creando psicólogo...')
-  const psychologist = await prisma.psychologist.upsert({
-    where: { email: 'psicologo@example.com' },
+  const psychologist = await prisma.user.upsert({
+    where: { phoneNumber: '+5215500000001' },
     update: {},
     create: {
+      phoneNumber: '+5215500000001',
       email: 'psicologo@example.com',
       name: 'Dr. Juan Pérez',
+      role: UserRole.PSYCHOLOGIST,
       licenseNumber: 'PSI-12345',
-      code: 'sersentiryconectar', // Código para vincular pacientes
-      isActive: true,
+      psychologistCode: 'DRJUANPEREZ_2025', // Código para vincular pacientes
+      onboardingDone: true,
+      termsAccepted: true,
+      termsAcceptedAt: new Date(),
     },
   })
   console.log(`   ✓ Psicólogo creado: ${psychologist.name}`)
-  console.log(`   📌 Código: ${psychologist.code}\n`)
+  console.log(`   📌 Código: ${psychologist.psychologistCode}\n`)
 
   // 2. Crear usuario individual (B2C)
   console.log('👤 Creando usuario individual...')

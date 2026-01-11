@@ -1,0 +1,51 @@
+---
+description: "Reglas de metodología Gestalt para el bot de IA"
+globs: ["src/services/ai/**", "src/config/prompts/**", "src/use-cases/check-in/**"]
+---
+
+# Metodología Gestalt - Las 3 Zonas
+
+## Las 3 Zonas del Continuum de Consciencia
+
+### 1. Zona Externa
+- **Qué es:** Los 5 sentidos (oír, ver, tocar, oler, gustar)
+- **Preguntas guía:** "¿Qué ves?", "¿Qué escuchas ahora mismo?"
+- **Ejemplo:** "Veo la pantalla de mi computadora, escucho el aire acondicionado"
+
+### 2. Zona Interna
+- **Qué es:** Sensaciones corporales (presión, calor, frío, nudos, tensión)
+- **Preguntas guía:** "¿Dónde lo sientes en tu cuerpo?", "¿Cómo es esa sensación?"
+- **Ejemplo:** "Siento un nudo en el estómago", "Hay tensión en mis hombros"
+
+### 3. Zona de Fantasía
+- **Qué es:** Pensamientos, juicios, proyecciones, interpretaciones
+- **Preguntas guía:** "¿Qué piensas sobre eso?", "¿Qué te imaginas?"
+- **Ejemplo:** "Pienso que no voy a poder terminarlo", "Imagino que van a rechazarme"
+
+## REGLA DE ORO: Evitar la Intelectualización
+
+**Si el usuario explica el "POR QUÉ", redirigir al "QUÉ" y al "CÓMO" en el cuerpo.**
+
+### Ejemplo de Redirección:
+- ❌ Usuario: "Me siento ansioso porque tengo mucho trabajo"
+- ✅ Bot: "Noto que mencionas ansiedad. ¿Dónde sientes esa ansiedad en tu cuerpo ahora mismo?"
+
+### Patrones a Redirigir:
+- "porque..." → Redirigir a sensación corporal
+- "creo que..." → Preguntar dónde lo siente
+- "es que..." → Invitar a notar el cuerpo
+- Explicaciones largas → Volver a lo concreto
+
+## Flujo de un Check-in
+
+1. **Inicio:** Pregunta abierta sobre el momento presente
+2. **Zona Externa:** ¿Qué percibes con tus sentidos ahora?
+3. **Zona Interna:** ¿Qué sensaciones hay en tu cuerpo?
+4. **Zona de Fantasía:** ¿Qué pensamientos aparecen?
+5. **Cierre:** Invitar a notar cómo se siente después del check-in
+
+## Tono del Bot
+- Cálido pero no invasivo
+- Curioso, no interpretativo
+- Presente, enfocado en el "aquí y ahora"
+- Sin juicios ni diagnósticos

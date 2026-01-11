@@ -11,7 +11,8 @@
 
 export const UserRole = {
   INDIVIDUAL: 'INDIVIDUAL',
-  PATIENT: 'PATIENT'
+  PATIENT: 'PATIENT',
+  PSYCHOLOGIST: 'PSYCHOLOGIST'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]

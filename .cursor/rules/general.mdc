@@ -1,0 +1,58 @@
+---
+description: "Contexto general del proyecto Continuum AI"
+alwaysApply: true
+---
+
+# Continuum AI - Contexto General
+
+## Qué es Continuum
+Plataforma de salud mental que utiliza IA para cerrar la brecha entre sesiones de terapia mediante el **Continuum de Consciencia** (Terapia Gestalt).
+
+### Arquitectura Dual-Role
+- **WhatsApp como punto de entrada único**: Todos los usuarios se registran vía WhatsApp
+- **Dos tipos de usuarios**:
+  - **Usuarios Individuales/Pacientes**: Buscan apoyo personal para autoconocimiento
+  - **Psicólogos**: Profesionales con acceso a dashboard clínico + check-ins personales
+- **Dual dashboard**: Dashboard de usuario (perfil, historial) y dashboard clínico (pacientes, reportes)
+
+## Misión
+- **NO diagnosticar**, solo facilitar el "darse cuenta" (awareness)
+- Ayudar a usuarios a conectar con sus sensaciones corporales entre sesiones de terapia
+- Empoderar a psicólogos con herramientas de seguimiento y análisis de pacientes
+
+## Stack Tecnológico
+- **Frontend/Backend:** Next.js (App Router) + TypeScript
+- **ORM:** Prisma
+- **Base de Datos:** Neon (PostgreSQL serverless)
+- **Autenticación:** Better Auth
+- **Comunicación:** WhatsApp vía Ycloud API
+- **IA:** Gemini 1.5 Flash (Google AI SDK)
+
+## Privacidad (CRÍTICO)
+- Separar estrictamente **PII** (identidad) de **PHI** (datos de salud/logs)
+- User = PII, Session/Message/BodySensation = PHI
+
+## Roadmap
+
+### ✅ MVP Completado
+- Bot WhatsApp con onboarding dual (usuarios y psicólogos)
+- Base de datos con arquitectura dual-role
+- Sistema de check-ins con análisis de Terapia Gestalt
+- Generación automática de códigos de vinculación para psicólogos
+
+### 🔄 En Progreso
+- Dashboard de usuario (perfil, historial, visualizaciones)
+- Dashboard clínico para psicólogos
+
+### 📅 V2 - Funcionalidades Avanzadas
+- Comandos slash para psicólogos (/dashboard, /pacientes, /reporte)
+- Procesamiento de lenguaje natural para comandos
+- Sistema de notificaciones de check-ins
+- Reportes y análisis de tendencias emocionales
+
+## Variables de Entorno
+```
+DATABASE_URL, BETTER_AUTH_SECRET, BETTER_AUTH_URL
+YCLOUD_API_KEY, YCLOUD_WEBHOOK_SECRET
+GEMINI_API_KEY, NEXT_PUBLIC_APP_URL
+```

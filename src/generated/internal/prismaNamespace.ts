@@ -392,7 +392,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Account: 'Account',
   VerificationToken: 'VerificationToken',
-  Psychologist: 'Psychologist',
+  Session: 'Session',
   User: 'User',
   CheckIn: 'CheckIn',
   BodySensation: 'BodySensation'
@@ -411,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "verificationToken" | "psychologist" | "user" | "checkIn" | "bodySensation"
+    modelProps: "account" | "verificationToken" | "session" | "user" | "checkIn" | "bodySensation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -563,77 +563,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Psychologist: {
-      payload: Prisma.$PsychologistPayload<ExtArgs>
-      fields: Prisma.PsychologistFieldRefs
+    Session: {
+      payload: Prisma.$SessionPayload<ExtArgs>
+      fields: Prisma.SessionFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.PsychologistFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload> | null
+          args: Prisma.SessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.PsychologistFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload>
+          args: Prisma.SessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload>
         }
         findFirst: {
-          args: Prisma.PsychologistFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload> | null
+          args: Prisma.SessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.PsychologistFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload>
+          args: Prisma.SessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload>
         }
         findMany: {
-          args: Prisma.PsychologistFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload>[]
+          args: Prisma.SessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload>[]
         }
         create: {
-          args: Prisma.PsychologistCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload>
+          args: Prisma.SessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload>
         }
         createMany: {
-          args: Prisma.PsychologistCreateManyArgs<ExtArgs>
+          args: Prisma.SessionCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.PsychologistCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload>[]
+          args: Prisma.SessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload>[]
         }
         delete: {
-          args: Prisma.PsychologistDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload>
+          args: Prisma.SessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload>
         }
         update: {
-          args: Prisma.PsychologistUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload>
+          args: Prisma.SessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload>
         }
         deleteMany: {
-          args: Prisma.PsychologistDeleteManyArgs<ExtArgs>
+          args: Prisma.SessionDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.PsychologistUpdateManyArgs<ExtArgs>
+          args: Prisma.SessionUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.PsychologistUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload>[]
+          args: Prisma.SessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload>[]
         }
         upsert: {
-          args: Prisma.PsychologistUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PsychologistPayload>
+          args: Prisma.SessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionPayload>
         }
         aggregate: {
-          args: Prisma.PsychologistAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePsychologist>
+          args: Prisma.SessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSession>
         }
         groupBy: {
-          args: Prisma.PsychologistGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PsychologistGroupByOutputType>[]
+          args: Prisma.SessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SessionGroupByOutputType>[]
         }
         count: {
-          args: Prisma.PsychologistCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PsychologistCountAggregateOutputType> | number
+          args: Prisma.SessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SessionCountAggregateOutputType> | number
         }
       }
     }
@@ -923,25 +923,31 @@ export const VerificationTokenScalarFieldEnum = {
 export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
-export const PsychologistScalarFieldEnum = {
+export const SessionScalarFieldEnum = {
   id: 'id',
-  email: 'email',
-  name: 'name',
-  licenseNumber: 'licenseNumber',
-  code: 'code',
-  isActive: 'isActive',
+  expiresAt: 'expiresAt',
+  token: 'token',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  userId: 'userId'
 } as const
 
-export type PsychologistScalarFieldEnum = (typeof PsychologistScalarFieldEnum)[keyof typeof PsychologistScalarFieldEnum]
+export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
   id: 'id',
   phoneNumber: 'phoneNumber',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  password: 'password',
   name: 'name',
   role: 'role',
+  licenseNumber: 'licenseNumber',
+  psychologistCode: 'psychologistCode',
+  notificationsEnabled: 'notificationsEnabled',
   onboardingDone: 'onboardingDone',
   onboardingStep: 'onboardingStep',
   termsAccepted: 'termsAccepted',
@@ -1251,7 +1257,7 @@ export interface PrismaClientOptions {
 export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
   verificationToken?: Prisma.VerificationTokenOmit
-  psychologist?: Prisma.PsychologistOmit
+  session?: Prisma.SessionOmit
   user?: Prisma.UserOmit
   checkIn?: Prisma.CheckInOmit
   bodySensation?: Prisma.BodySensationOmit

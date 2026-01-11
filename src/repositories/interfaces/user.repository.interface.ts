@@ -10,7 +10,7 @@ export interface UserEntity {
   id: string
   phoneNumber: PhoneNumber
   name: string | null
-  role: 'INDIVIDUAL' | 'PATIENT'
+  role: 'INDIVIDUAL' | 'PATIENT' | 'PSYCHOLOGIST'
   onboardingDone: boolean
   onboardingStep: string | null
   termsAccepted: boolean
@@ -25,6 +25,11 @@ export interface UserEntity {
   lastCheckInAt: Date | null
   createdAt: Date
   updatedAt: Date
+  // Campos específicos para PSYCHOLOGIST
+  licenseNumber?: string | null
+  psychologistCode?: string | null
+  password?: string | null
+  notificationsEnabled?: boolean
 }
 
 export interface IUserRepository {
@@ -34,7 +39,7 @@ export interface IUserRepository {
   create(data: {
     phoneNumber: PhoneNumber
     name?: string
-    role?: 'INDIVIDUAL' | 'PATIENT'
+    role?: 'INDIVIDUAL' | 'PATIENT' | 'PSYCHOLOGIST'
     onboardingStep?: string
   }): Promise<UserEntity>
 

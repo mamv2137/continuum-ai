@@ -1,0 +1,69 @@
+---
+description: "Configuración de servicios externos (Gemini, WhatsApp, Auth, DB)"
+globs: ["src/services/**", "src/lib/**", "src/app/api/**"]
+---
+
+# Servicios Externos
+
+## Prisma + Neon Database
+
+### Configuración
+- **Edge functions:** Usar `@neondatabase/serverless` con `src/lib/db-edge.ts`
+- **Server-side:** Usar Prisma Client estándar con `src/lib/db.ts`
+- Neon maneja connection pooling automáticamente
+
+### Índices Importantes
+- `User.phoneNumber` → lookup desde WhatsApp
+- `Session.userId + createdAt` → historial
+- `Message.sessionId` → conversaciones
+
+### Modelo de Datos
+```
+User (PII): id, email, name, phoneNumber
+Session (PHI): id, userId, type, startedAt, endedAt
+Message (PHI): id, sessionId, role, content, timestamp
+BodySensation (PHI): id, sessionId, zone, description, intensity
+Psychologist (PII): id, licenseNumber, name, email
+```
+
+## Better Auth
+
+### Configuración
+- Config en `src/lib/auth.ts`
+- Rutas API en `/api/auth/[...all]/route.ts`
+- Cookies: `httpOnly: true`, `secure: true`
+- Usar Prisma adapter para persistencia
+
+### Providers (MVP)
+- Email/Password inicialmente
+- OAuth (Google) para V2
+
+## Ycloud (WhatsApp)
+
+### Webhook
+- Endpoint: `/api/whatsapp/webhook`
+- **SIEMPRE** validar firma con `YCLOUD_WEBHOOK_SECRET`
+- Implementar rate limiting
+- Logging para debugging
+
+### Envío de Mensajes
+- Servicio: `src/services/messaging/whatsapp.service.ts`
+- Manejar errores sin perder mensajes
+- Considerar retry logic
+
+## Gemini AI
+
+### Configuración
+- SDK: `@google/generative-ai`
+- Servicio: `src/services/ai/gestalt-coach.service.ts`
+- System Prompt: `src/config/prompts/gestalt-system.prompt.ts`
+
+### Contexto
+- Incluir últimas 5-10 sesiones del usuario
+- Mantener continuidad en las conversaciones
+- Considerar streaming para mejor UX
+
+### Validaciones
+- Respuestas deben seguir las 3 zonas Gestalt
+- Redirigir intelectualización a sensaciones corporales
+- Tono cálido, no invasivo, sin diagnósticos

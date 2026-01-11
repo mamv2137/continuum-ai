@@ -6,16 +6,28 @@
 
 export enum OnboardingStep {
   NOT_STARTED = 'NOT_STARTED', // Usuario nuevo, nunca habló con el bot
+  USER_TYPE = 'USER_TYPE', // Preguntando si es profesional o busca apoyo personal
+
+  // ===== FLUJO PARA USUARIOS INDIVIDUALES =====
   NAME = 'NAME', // Mostrando mensaje de bienvenida y preguntando nombre
   WAITING_NAME = 'WAITING_NAME', // Esperando respuesta con el nombre
   EXPECTATIONS = 'EXPECTATIONS', // Preguntando qué lo trae aquí
-  PSYCHOLOGIST = 'PSYCHOLOGIST', // Preguntando si tiene psicólogo
+  PSYCHOLOGIST = 'PSYCHOLOGIST', // Preguntando si tiene psicólogo (sí/no)
+  PSYCHOLOGIST_REGISTERED = 'PSYCHOLOGIST_REGISTERED', // Preguntando si está registrado en Continuum
   PSYCHOLOGIST_CODE = 'PSYCHOLOGIST_CODE', // Esperando código del psicólogo
   PSYCHOLOGIST_NAME = 'PSYCHOLOGIST_NAME', // Preguntando nombre de psicólogo externo
   PSYCHOLOGIST_CONTACT = 'PSYCHOLOGIST_CONTACT', // Preguntando contacto de psicólogo externo
   EMERGENCY_CONTACT = 'EMERGENCY_CONTACT', // Preguntando si tiene contacto de emergencia
   EMERGENCY_CONTACT_NAME = 'EMERGENCY_CONTACT_NAME', // Pidiendo nombre del contacto
   EMERGENCY_CONTACT_PHONE = 'EMERGENCY_CONTACT_PHONE', // Pidiendo teléfono del contacto
+
+  // ===== FLUJO PARA PSICÓLOGOS =====
+  PSYCHO_NAME = 'PSYCHO_NAME', // Preguntando nombre del psicólogo
+  PSYCHO_LICENSE = 'PSYCHO_LICENSE', // Preguntando cédula profesional (opcional)
+  PSYCHO_PASSWORD = 'PSYCHO_PASSWORD', // Preguntando si quiere crear contraseña para web
+  PSYCHO_PASSWORD_INPUT = 'PSYCHO_PASSWORD_INPUT', // Esperando la contraseña
+  PSYCHO_COMPLETED = 'PSYCHO_COMPLETED', // Mostrando código de vinculación
+
   COMPLETED = 'COMPLETED', // Onboarding terminado
 }
 

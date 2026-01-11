@@ -1,0 +1,61 @@
+/**
+ * Next.js Middleware para Better Auth
+ *
+ * Protege rutas que requieren autenticación
+ * Redirige a /login si el usuario no está autenticado
+ */
+
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+// Rutas que requieren autenticación
+const protectedRoutes = ['/dashboard', '/profile', '/settings']
+
+// Rutas públicas que no requieren autenticación
+const publicRoutes = ['/login', '/register', '/', '/api/whatsapp/webhook']
+
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // Permitir todas las rutas de API de auth
+  if (pathname.startsWith('/api/auth')) {
+    return NextResponse.next()
+  }
+
+  // Permitir rutas públicas
+  if (publicRoutes.some((route) => pathname.startsWith(route))) {
+    return NextResponse.next()
+  }
+
+  // Verificar si la ruta está protegida
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  )
+
+  if (isProtectedRoute) {
+    // Verificar si existe sesión
+    const sessionToken = request.cookies.get('better-auth.session_token')
+
+    if (!sessionToken) {
+      // Redirigir a login si no hay sesión
+      const loginUrl = new URL('/login', request.url)
+      loginUrl.searchParams.set('redirect', pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+  }
+
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     */
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
+}

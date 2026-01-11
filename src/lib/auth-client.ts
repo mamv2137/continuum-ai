@@ -1,0 +1,20 @@
+/**
+ * Better Auth Client
+ *
+ * Cliente para usar en componentes del frontend
+ * Proporciona hooks y funciones para autenticación
+ */
+
+import { createAuthClient } from 'better-auth/react'
+
+export const authClient = createAuthClient({
+  baseURL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+})
+
+export const {
+  signIn,
+  signUp,
+  signOut,
+  useSession,
+  $fetch,
+} = authClient

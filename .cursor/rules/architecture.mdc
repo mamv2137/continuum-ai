@@ -1,0 +1,83 @@
+---
+description: "Arquitectura en capas y patrones de código"
+globs: ["src/**/*.ts", "src/**/*.tsx"]
+alwaysApply: true
+---
+
+# Arquitectura MVP - Capas y Patrones
+
+## Patrón: Arquitectura en Capas Simplificada
+
+### Principios
+- **Separation of Concerns:** Cada capa tiene una responsabilidad clara
+- **Domain-Driven Design Ligero:** Entities y Value Objects en capa de dominio
+- **Repository Pattern:** Abstracción de persistencia
+- **Service Pattern:** Lógica de negocio reutilizable
+- **Dependency Injection:** Facilitar testing
+
+## Estructura de Capas
+
+```
+src/
+├── domain/           # Entidades, Value Objects, Errores
+├── use-cases/        # Lógica de aplicación
+├── repositories/     # Interfaces + Implementaciones Prisma
+├── services/         # Integraciones externas (AI, WhatsApp)
+├── app/              # Next.js (API routes, páginas)
+├── lib/              # Utilidades (auth, db, utils)
+├── config/           # Constantes y prompts
+├── types/            # Tipos TypeScript compartidos
+└── components/       # Componentes UI
+```
+
+## Reglas por Capa
+
+### Domain (`src/domain/`)
+- Entidades con lógica de negocio
+- Value Objects inmutables
+- **NUNCA** dependencias externas (Prisma, APIs)
+- Errores de dominio personalizados
+
+### Use Cases (`src/use-cases/`)
+- Un caso de uso = una acción específica
+- **Single Responsibility:** pequeños y enfocados
+- Orquestan repositories y services
+- Devuelven resultados de dominio
+
+### Repositories (`src/repositories/`)
+- Interface en `interfaces/` → Implementación en `prisma/`
+- **SIEMPRE** devolver entidades de dominio, NO modelos Prisma
+- Usar mappers en `prisma/mappers/` para conversión
+- Manejar errores de DB apropiadamente
+
+### Services (`src/services/`)
+- **Stateless** y reutilizables
+- Encapsulan integraciones externas
+- Manejo de errores con logging apropiado
+- IA centralizada en `services/ai/`
+
+### App (`src/app/`)
+- **Priorizar Server Components**
+- API Routes validan entrada y llaman use cases
+- Client Components solo cuando sea necesario
+
+## Flujo de Datos
+
+```
+Request → API Route → Use Case → Repository/Service → Domain
+                          ↓
+                    Domain Logic
+                          ↓
+                    Service (AI)
+                          ↓
+                    Repository (Save)
+                          ↓
+                      Response
+```
+
+## Lineamientos TypeScript
+
+- **Tipado estricto:** evitar `any`
+- Tipos explícitos en funciones públicas
+- Validar en boundaries (API routes, webhooks)
+- Usar tipos de `src/types/` para compartir

@@ -48,7 +48,7 @@ async function testConnection() {
     // 4. Contar registros en tablas principales (si existen)
     try {
       const userCount = await prisma.user.count()
-      const psychologistCount = await prisma.psychologist.count()
+      const psychologistCount = await prisma.user.count({ where: { role: 'PSYCHOLOGIST' } })
       const checkInCount = await prisma.checkIn.count()
 
       console.log('4. Estadísticas de datos:')

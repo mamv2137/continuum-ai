@@ -28,10 +28,10 @@ export type Account = Prisma.AccountModel
  */
 export type VerificationToken = Prisma.VerificationTokenModel
 /**
- * Model Psychologist
+ * Model Session
  * 
  */
-export type Psychologist = Prisma.PsychologistModel
+export type Session = Prisma.SessionModel
 /**
  * Model User
  * 

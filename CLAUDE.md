@@ -71,9 +71,109 @@ Eres el arquitecto de "Continuum AI", una plataforma de salud mental que utiliza
 - Repositories devuelven entidades de dominio, NO modelos de Prisma
 - Services son stateless y reutilizables
 
-## 5. Roadmap de Funcionalidades
-- **MVP:** Bot de WhatsApp + Registro en DB + Dashboard básico de autoconocimiento para el usuario.
-- **V2:** Dashboard clínico para psicólogos con análisis de tendencias.
+## 5. Modelo de Usuarios (Dual Role System)
+
+### 5.1 Tipos de Usuarios
+El sistema maneja dos tipos de usuarios mediante el campo `role` en la tabla `User`:
+
+1. **INDIVIDUAL / PATIENT** - Usuarios que buscan apoyo personal
+   - Acceso vía WhatsApp (punto de entrada principal)
+   - Pueden hacer check-ins de Gestalt
+   - Pueden vincularse con un psicólogo (mediante código)
+   - Acceso al dashboard web personal (magic link o email/password)
+
+2. **PSYCHOLOGIST** - Profesionales de salud mental
+   - Acceso vía WhatsApp Y web
+   - Pueden hacer check-ins personales (como cualquier usuario)
+   - Tienen código único para vincular pacientes
+   - Acceso al dashboard clínico con datos de pacientes
+   - Pueden recibir notificaciones de check-ins de pacientes
+   - Login web con email/password o magic link
+
+### 5.2 Flujo de Registro (WhatsApp)
+**Pregunta inicial:** "¿Vienes como profesional (psicólogo/terapeuta) o buscas apoyo personal?"
+
+**Si es PROFESIONAL:**
+1. Recolectar nombre
+2. Recolectar cédula profesional (opcional)
+3. Ofrecer crear contraseña para web (opcional)
+4. Generar código único de vinculación
+5. Completar onboarding
+
+**Si es PERSONAL:**
+1. Recolectar nombre
+2. Preguntar si tiene psicólogo
+3. Recolectar contacto de emergencia (opcional)
+4. Preguntar expectativas
+5. Completar onboarding
+
+### 5.3 Funcionalidades por Rol
+
+#### Usuario Individual/Paciente:
+- ✅ Check-ins vía WhatsApp
+- ✅ Vinculación con psicólogo (código)
+- 🔄 Dashboard personal (próximo)
+- 🔄 Magic link para acceso web (próximo)
+
+#### Psicólogo:
+- ✅ Código único de vinculación
+- ✅ Check-ins personales vía WhatsApp
+- 🔄 Comandos especiales: `/dashboard`, `/pacientes`, `/reporte`
+- 🔄 Lenguaje natural para solicitudes (ej: "dame el reporte de María")
+- 🔄 Dashboard clínico con datos de pacientes
+- 🔄 Notificaciones de check-ins de pacientes
+
+## 6. Roadmap de Funcionalidades
+
+### ✅ MVP Completado
+- [x] Bot de WhatsApp con Gemini AI
+- [x] Sistema de onboarding dual (Profesional vs Personal)
+- [x] Registro en DB con Prisma + Neon
+- [x] Better Auth configurado (email/password + magic links)
+- [x] Flujo de check-ins con las 3 zonas de Gestalt
+- [x] Generación automática de códigos para psicólogos
+- [x] Vinculación paciente-psicólogo
+
+### 🔄 En Progreso - Dashboard Usuario
+- [ ] Layout del dashboard con navegación
+- [ ] Página de perfil (editar datos personales)
+- [ ] Historial de check-ins
+- [ ] Visualizaciones:
+  - [ ] Mapa de calor corporal
+  - [ ] Tendencias emocionales
+  - [ ] Estadísticas de uso (streak, total)
+- [ ] Configuración de cuenta
+- [ ] Botón de cancelar cuenta
+- [ ] Exportar datos (GDPR compliance)
+
+### 📅 V2 - Dashboard Clínico (Psicólogos)
+- [ ] Panel de pacientes vinculados
+- [ ] Vista detallada por paciente
+- [ ] Análisis de tendencias (emocionales, corporales)
+- [ ] Notas clínicas privadas
+- [ ] Reportes exportables (PDF)
+- [ ] Alertas configurables
+
+### 📅 V2 - Comandos y NLP para Psicólogos
+- [ ] Comandos especiales vía WhatsApp:
+  - [ ] `/dashboard` - Magic link al dashboard
+  - [ ] `/pacientes` - Lista de pacientes
+  - [ ] `/reporte [paciente] [fecha]` - Generar reporte
+  - [ ] `/alertas on/off` - Activar/desactivar notificaciones
+  - [ ] `/checkin` - Iniciar check-in personal
+- [ ] Procesamiento de lenguaje natural:
+  - [ ] "Dame el reporte de la última sesión de María"
+  - [ ] "Muéstrame mis pacientes de hoy"
+  - [ ] "Dame el link para el dashboard"
+- [ ] Notificaciones automáticas de check-ins
+
+### 📅 V3 - Funcionalidades Avanzadas
+- [ ] OAuth (Google) para login
+- [ ] Analytics avanzado
+- [ ] Event-Driven Architecture para notificaciones
+- [ ] Clean Architecture completa
+- [ ] Multi-idioma
+- [ ] App móvil nativa
 
 ## 6. Configuración de Servicios
 
