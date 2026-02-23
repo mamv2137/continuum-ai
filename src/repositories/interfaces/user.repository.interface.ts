@@ -8,7 +8,7 @@ import { PhoneNumber } from '../../domain/value-objects/phone-number.vo'
 
 export interface UserEntity {
   id: string
-  phoneNumber: PhoneNumber
+  phoneNumber: PhoneNumber | null
   name: string | null
   role: 'INDIVIDUAL' | 'PATIENT' | 'PSYCHOLOGIST'
   onboardingDone: boolean
@@ -37,7 +37,8 @@ export interface IUserRepository {
    * Crea un nuevo usuario
    */
   create(data: {
-    phoneNumber: PhoneNumber
+    phoneNumber?: PhoneNumber
+    email: string
     name?: string
     role?: 'INDIVIDUAL' | 'PATIENT' | 'PSYCHOLOGIST'
     onboardingStep?: string

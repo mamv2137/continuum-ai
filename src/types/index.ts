@@ -11,8 +11,8 @@ import { Prisma } from '@/generated/client'
 // ==========================================
 
 export type User = Prisma.UserGetPayload<{}>
-export type UserWithAccount = Prisma.UserGetPayload<{
-  include: { account: true }
+export type UserWithAccounts = Prisma.UserGetPayload<{
+  include: { accounts: true }
 }>
 export type UserWithCheckIns = Prisma.UserGetPayload<{
   include: { checkIns: true }

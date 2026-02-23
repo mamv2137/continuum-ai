@@ -34,8 +34,13 @@ export class StartCheckInUseCase {
     let user = await this.userRepository.findByPhoneNumber(phoneNumber)
 
     if (!user) {
+      // Generar email a partir del teléfono para usuarios de WhatsApp
+      const phoneClean = phoneNumber.getValue().replace(/\+/g, '')
+      const generatedEmail = `${phoneClean}@wa.continuum.local`
+
       user = await this.userRepository.create({
         phoneNumber,
+        email: generatedEmail,
         role: 'INDIVIDUAL',
       })
     }

@@ -58,8 +58,13 @@ export class ProcessMessageUseCase {
     const isNewUser = !user
 
     if (!user) {
+      // Generar email a partir del teléfono para usuarios de WhatsApp
+      const phoneClean = phoneNumber.getValue().replace(/\+/g, '')
+      const generatedEmail = `${phoneClean}@wa.continuum.local`
+
       user = await this.userRepository.create({
         phoneNumber,
+        email: generatedEmail,
         role: 'INDIVIDUAL',
         onboardingStep: OnboardingStep.NOT_STARTED, // Iniciar onboarding
       })

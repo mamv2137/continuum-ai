@@ -39,12 +39,13 @@ async function testRepositories() {
 
     const user = await userRepo.create({
       phoneNumber: testPhoneNumber,
+      email: 'test@example.com',
       name: 'Usuario de Prueba',
       role: 'INDIVIDUAL',
     })
 
     console.log(`   ✅ Usuario creado: ${user.id}`)
-    console.log(`   - Teléfono: ${user.phoneNumber.getValue()}`)
+    console.log(`   - Teléfono: ${user.phoneNumber?.getValue() ?? 'N/A'}`)
     console.log(`   - Nombre: ${user.name}\n`)
 
     // ==========================================

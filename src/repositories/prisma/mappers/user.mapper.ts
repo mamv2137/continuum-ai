@@ -18,9 +18,9 @@ export class UserMapper {
 
     return {
       id: prismaUser.id,
-      phoneNumber: new PhoneNumber(prismaUser.phoneNumber),
+      phoneNumber: prismaUser.phoneNumber ? new PhoneNumber(prismaUser.phoneNumber) : null,
       name: prismaUser.name,
-      role: prismaUser.role as 'INDIVIDUAL' | 'PATIENT',
+      role: prismaUser.role as 'INDIVIDUAL' | 'PATIENT' | 'PSYCHOLOGIST',
       onboardingDone: prismaUser.onboardingDone,
       onboardingStep: user.onboardingStep,
       termsAccepted: prismaUser.termsAccepted,
@@ -43,18 +43,21 @@ export class UserMapper {
    * (usado en create/update)
    */
   static toPrismaCreate(data: {
-    phoneNumber: PhoneNumber
+    phoneNumber?: PhoneNumber
+    email: string
     name?: string
-    role?: 'INDIVIDUAL' | 'PATIENT'
+    role?: 'INDIVIDUAL' | 'PATIENT' | 'PSYCHOLOGIST'
     onboardingStep?: string
   }): {
-    phoneNumber: string
+    phoneNumber?: string
+    email: string
     name?: string
     role?: PrismaUserRole
     onboardingStep?: string
   } {
     return {
-      phoneNumber: data.phoneNumber.getValue(),
+      phoneNumber: data.phoneNumber?.getValue(),
+      email: data.email,
       name: data.name,
       role: data.role as PrismaUserRole,
       onboardingStep: data.onboardingStep,

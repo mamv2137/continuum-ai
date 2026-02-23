@@ -59,6 +59,11 @@ export type Account = Prisma.AccountModel
  */
 export type VerificationToken = Prisma.VerificationTokenModel
 /**
+ * Model Verification
+ * 
+ */
+export type Verification = Prisma.VerificationModel
+/**
  * Model Session
  * 
  */

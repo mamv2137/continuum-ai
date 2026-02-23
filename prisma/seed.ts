@@ -42,6 +42,7 @@ async function main() {
     update: {},
     create: {
       phoneNumber: '+5215512345678',
+      email: 'maria@example.com',
       name: 'María García',
       role: UserRole.INDIVIDUAL,
       onboardingDone: true,
@@ -58,6 +59,7 @@ async function main() {
     update: {},
     create: {
       phoneNumber: '+5215587654321',
+      email: 'carlos@example.com',
       name: 'Carlos Rodríguez',
       role: UserRole.PATIENT,
       onboardingDone: true,

@@ -16,9 +16,10 @@ export class PrismaUserRepository implements IUserRepository {
    * Crea un nuevo usuario
    */
   async create(data: {
-    phoneNumber: PhoneNumber
+    phoneNumber?: PhoneNumber
+    email: string
     name?: string
-    role?: 'INDIVIDUAL' | 'PATIENT'
+    role?: 'INDIVIDUAL' | 'PATIENT' | 'PSYCHOLOGIST'
   }): Promise<UserEntity> {
     const prismaData = UserMapper.toPrismaCreate(data)
 

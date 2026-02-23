@@ -29,31 +29,35 @@ enum SessionStatus {
   ABANDONED
 }
 
-enum AuthProvider {
-  EMAIL      // Email/Password
-  GOOGLE     // OAuth Google (V2)
-  PHONE      // WhatsApp/SMS (V2)
-}
 
 // ==========================================
-// AUTENTICACIÓN (PII)
+// BETTER AUTH - TABLAS DE AUTENTICACIÓN
 // ==========================================
 
+// Modelo Account compatible con Better Auth
 model Account {
-  id              String        @id @default(cuid())
-  email           String        @unique
-  emailVerified   Boolean       @default(false)
-  hashedPassword  String?
-  provider        AuthProvider  @default(EMAIL)
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // Relación 1:1 con User
-  userId          String        @unique
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId             String
+  providerId            String    // "credential", "google", etc.
 
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  // OAuth tokens (opcional, para proveedores OAuth)
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
 
-  @@index([email])
+  // Password (para credential provider)
+  password              String?
+
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
 }
 
 model VerificationToken {
@@ -68,9 +72,17 @@ model VerificationToken {
   @@index([token])
 }
 
-// ==========================================
-// BETTER AUTH - TABLAS DE AUTENTICACIÓN
-// ==========================================
+// Tabla requerida por Better Auth Magic Link Plugin
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String   // email del usuario
+  value      String   // token de verificación
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+}
 
 model Session {
   id             String   @id @default(cuid())
@@ -112,8 +124,8 @@ model Session {
 
 model User {
   id              String           @id @default(cuid())
-  phoneNumber     String           @unique // Identificador principal para WhatsApp
-  email           String?          @unique // Para autenticación web (opcional)
+  phoneNumber     String?          @unique // Para WhatsApp (opcional en registro web)
+  email           String           @unique // Requerido para Better Auth
   emailVerified   Boolean          @default(false)
   password        String?          // Solo para psicólogos que quieran login web con email/password
   name            String?
@@ -142,8 +154,8 @@ model User {
   timezone        String           @default("America/Mexico_City")
   preferredLanguage String         @default("es")
 
-  // Relación con autenticación (opcional para usuarios de WhatsApp)
-  account         Account?
+  // Relaciones con autenticación
+  accounts        Account[]   // Un usuario puede tener múltiples cuentas (Google, credential, etc.)
   sessions        Session[]
 
   // Relación con psicólogo registrado (solo para PATIENT B2B2C)
